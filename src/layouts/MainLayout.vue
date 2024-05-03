@@ -22,27 +22,53 @@
     </q-header>
 
     <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
+        v-model="leftMenuOpener"
+        show-if-above
+        :width="300"
+        :breakpoint="900"
+      >
+        <q-scroll-area style="height: calc(100% - 166px); margin-top: 166px; border-right: 1px solid #ddd">
+          <q-list padding>
+            <q-item to='/' exact clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon name="list" />
+              </q-item-section>
 
-        <EssentialLink
-          v-for="link in linksList"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
+              <q-item-section>
+                TODO
+              </q-item-section>
+            </q-item>
+
+            <q-item to='/help' exact clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon name="help" />
+              </q-item-section>
+
+              <q-item-section>
+                HELP
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-scroll-area>
+
+        <q-img class="menu-image absolute-top" src="grass.jpg" style="height: 166px">
+          <div class="absolute-bottom bg-transparent">
+
+            <q-avatar size="70px" class="q-mb-sm">
+              <img src="profile_photo.png">
+            </q-avatar>
+
+            <div class="text-weight-bold blue-grey-1" style="font-size: 130%;">Владислав Голубков</div>
+            <a class="text-weight-bold" href="https://github.com/vlad-vladimirovich" target="_blank" rel="noopener noreferrer">@Follow me on github</a>
+
+          </div>
+        </q-img>
+      </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <keep-alive>
+        <router-view />
+      </keep-alive>
     </q-page-container>
   </q-layout>
 </template>
