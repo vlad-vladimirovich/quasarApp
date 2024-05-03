@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header>
       <q-toolbar>
         <q-btn
           flat
@@ -11,11 +11,13 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
+        <div class="q-px-lg q-pt-xl q-mb-md" style="height: 150px;">
+          <div class="text-h3">TODO list</div>
+          <div class="text-subtitle1">{{ format_date }}</div>
+        </div>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <q-img src="grass.jpg" class="header-image absolute-top"/>
+
       </q-toolbar>
     </q-header>
 
