@@ -99,6 +99,10 @@ const leftMenuOpener = ref(false)
 function toggleLeftDrawer () {
   leftMenuOpener.value = !leftMenuOpener.value
 }
+
+let date_today = Date.now()
+const format_date = date.formatDate(date_today, 'dddd D MMMM')
+
 </script>
 
 <style lang="scss">
