@@ -27,6 +27,3 @@ quasar build -m electron
 
 ![App Screenshot](https://raw.githubusercontent.com/vlad-vladimirovich/quasarApp/master/photo_2024-05-04_20-53-16.jpg)
 
-
-### Customize the configuration
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
