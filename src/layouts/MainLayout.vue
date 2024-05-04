@@ -51,7 +51,7 @@
           </q-list>
         </q-scroll-area>
 
-        <q-img class="menu-image absolute-top" src="grass.jpg" style="height: 166px">
+        <q-img class="menu-image absolute-top" src="background.jpg" style="height: 166px">
           <div class="absolute-bottom bg-transparent">
 
             <q-avatar size="70px" class="q-mb-sm">
@@ -59,7 +59,7 @@
             </q-avatar>
 
             <div class="text-weight-bold blue-grey-1" style="font-size: 130%;">Владислав Голубков</div>
-            <a class="text-weight-bold" href="https://github.com/vlad-vladimirovich" target="_blank" rel="noopener noreferrer">@Follow me on github</a>
+            <a class="git-link text-weight-bold" href="https://github.com/vlad-vladimirovich" target="_blank" rel="noopener noreferrer">@Follow me on github</a>
 
           </div>
         </q-img>
@@ -139,4 +139,9 @@ const format_date = date.formatDate(date_today, 'dddd D MMMM')
     z-index: -1;
     opacity: 0.5;
   }
+
+  .git-link {
+    color:  white;
+  }
+
 </style>
