@@ -5,7 +5,7 @@ A simple project which made with Quasar framework
 - Install Node JS from https://nodejs.org/en
 - To Install other dependencies use ```yarn #or npm install ```
 
-### Starting the app 
+## Starting the app 
 - In development mode (hot-code reloading, error reporting, etc.)
     - Use the command ```quasar dev ```
 - Or choose a platform and build the app
