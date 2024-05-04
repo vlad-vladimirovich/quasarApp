@@ -1,6 +1,14 @@
-# Quasar App (quasarapp)
 
-A Quasar Project
+## Usage/Examples  
+~~~javascript  
+  import Component from 'my-project'
+
+  console.log("Hello World")
+~~~  
+
+# Quasar Project
+
+A simple project which made with Quasar framework
 
 ## Install the dependencies
 ```bash
@@ -15,27 +23,17 @@ quasar dev
 ```
 
 
-### Lint the files
+### Or choose a platform and build the app
+- Default platform win32. If you want outher platform you need to edit section 'packager' into the file quasar-config-js
+- After execute the command which is shown below
+
 ```bash
-yarn lint
-# or
-npm run lint
+quasar build -m electron
 ```
+- After compilation you need to go to the folder indicated on the screenshot and run "Quasar App.exe"
 
+![App Screenshot](https://raw.githubusercontent.com/vlad-vladimirovich/quasarApp/master/public/grass.jpg)  
 
-### Format the files
-```bash
-yarn format
-# or
-npm run format
-```
-
-
-
-### Build the app for production
-```bash
-quasar build
-```
 
 ### Customize the configuration
 See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
