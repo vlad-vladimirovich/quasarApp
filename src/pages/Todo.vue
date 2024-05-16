@@ -61,7 +61,7 @@
 
       </q-item>
     </q-list>
-    <div v-if="!task_list.length" class="tasks-completed absolute-center">
+    <div v-if="!task_list?.length" class="tasks-completed absolute-center">
       <q-icon name="check" size="100px" color="primary"/>
       <div class="text-h5 text-primary">Нет задач</div>
     </div>
@@ -69,7 +69,8 @@
 </template>
 
 <script>
-import { defineComponent} from 'vue';
+import axios from 'axios';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'IndexPage',
@@ -80,28 +81,50 @@ export default defineComponent({
       task_list: []
     }
   },
+
   methods: {
-    deleteTask(index) {
+    async getData() {
+
+      const responce = await axios({
+        url: 'http://localhost:3000/api/records', 
+        method: 'get'});
       
+      responce.data.forEach((item) => this.task_list.push({
+        title: item['task_descr'],
+        is_done: item['task_state']})
+      ),
+
+      console.log(this.task_list);
+
+    },
+    async addNewTask() {
+      await axios({
+        url: 'http://localhost:3000/api/records', 
+        method: 'post',
+        data: {
+          task_descr: this.newTask,
+          task_state: false
+        }}
+      );
+      this.newTask = '';
+    },
+
+    deleteTask(index) {
       this.$q.dialog({
         title: 'Подтверждение удаления',
         message: 'Вы действительно хотите удалить задачу?',
         cancel: true,
         persistent: true
       }).onOk(() => {
+
         this.task_list.splice(index, 1)
         this.$q.notify('Задание успешно удалено')
       })
     },
-
-    addNewTask() {
-      this.task_list.push({
-        title: this.newTask,
-        is_done: false
-      })
-      this.newTask = ''
-    }
-  }
+  },
+  mounted() {
+    this.getData()
+  },
 })
 </script>
 
