@@ -4,7 +4,7 @@ A simple project which made with Quasar framework and working on Node.JS server
 ## Install the dependencies
 - Install Node.JS from https://nodejs.org/en
 - Intsall MongoDB from https://www.mongodb.com/docs/manual/installation/
-- To Install other dependencies use ```yarn #or npm install ```
+- To Install other dependencies open the project folder and use ```yarn #or npm install ```
 
 ## Starting the app
 - Run MongoDB application
