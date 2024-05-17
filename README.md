@@ -1,15 +1,13 @@
 # Quasar Project
-A simple project which made with Quasar framework
+A simple project which made with Quasar framework and working on Node.JS server
 
 ## Install the dependencies
 - Install Node JS from https://nodejs.org/en
+- Intsall MongoDB from https://www.mongodb.com/docs/manual/installation/
 - To Install other dependencies use ```yarn #or npm install ```
 
-## Starting the app 
-- In development mode (hot-code reloading, error reporting, etc.)
-    - Use the command ```quasar dev ```
-- Or choose a platform and build the app
-    - Execute the command ```quasar build -m electron ```
-    - After compilation you need go to the folder indicated on the screenshot and run "Quasar App.exe"
-      ![App Screenshot](https://raw.githubusercontent.com/vlad-vladimirovich/quasarApp/master/public/photo_2024-05-04_20-53-16.jpg)
-    - Default platform win32. If you want outher platform you need to edit section 'packager' into the file "quasar-config-js"
+## Starting the app
+- Run MongoDB application
+- Open the project folder and use ```yarn #or npm run dev ``` to create a build app
+  - After a successful build, you will see the folder 'dist'
+- Finally use ```node server/server.js``` to run Node.JS server on default port (localhost:3000)
