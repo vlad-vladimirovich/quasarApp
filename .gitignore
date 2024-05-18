@@ -4,6 +4,8 @@ node_modules
 
 # Quasar core related directories
 .quasar
+/dist
+
 /dist/electron/UnPackaged
 /quasar.config.*.temporary.compiled*
 
