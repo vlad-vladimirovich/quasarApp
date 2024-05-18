@@ -25,8 +25,8 @@
     <q-list>
       <q-item
         v-for="(task, index) in task_list"
-        :key="task.title"
-        @click="task.is_done = !task.is_done"
+        :key="task.task_text"
+        @click="updateTaskState(index, task.task_text)"
         :class="{ 'is_done bg-blue-1' : task.is_done }"
         clickable
         v-ripple
@@ -40,7 +40,7 @@
         </q-item-section>
         
         <q-item-section>
-          <q-item-label>{{ task.title }}</q-item-label>
+          <q-item-label>{{ task.task_text }}</q-item-label>
         </q-item-section>
         
         <q-item-section avatar
@@ -49,7 +49,7 @@
         >
           <q-item-label>
             <q-btn
-              @click.stop="deleteTask(index)"
+              @click.stop="deleteTask(index, task.task_text)"
               padding="xs"
               flat 
               dense 
@@ -70,7 +70,7 @@
 
 <script>
 import axios from 'axios';
-import { defineComponent } from 'vue';
+import { ref, defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'IndexPage',
@@ -78,53 +78,119 @@ export default defineComponent({
   data () {
     return {
       newTask: '',
-      task_list: []
+      task_list: ref([])
     }
   },
 
-  methods: {
-    async getData() {
+  mounted() {
+    this.showData()
+  },
 
+  methods: {
+
+    // Get data from db
+    async getDBD() {
       const responce = await axios({
         url: 'http://localhost:3000/api/records', 
-        method: 'get'});
-      
-      responce.data.forEach((item) => this.task_list.push({
-        title: item['task_descr'],
-        is_done: item['task_state']})
-      ),
+        method: 'get'
+      });
 
-      console.log(this.task_list);
-
+      const tasks_from_db = await responce.data;
+      return tasks_from_db
     },
+
+    // Get task data from db by text
+    async getTaskDataDB (task_text) {
+      try {
+        const tasks_from_db = await this.getDBD();
+        const task_item_data = tasks_from_db.filter(element => element.task_text == task_text);
+        return task_item_data[0]
+
+      } catch (err) {
+          console.error(err);
+      }
+    },
+
+    // Prepare data from db
+    async showData() {
+      if (!this.task_list.length){
+        try {
+          const tasks_from_db = await this.getDBD();
+          
+          tasks_from_db.forEach((task) => this.task_list.push({
+            task_text: task['task_text'],
+            is_done: task['is_done']})
+          );
+
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    },
+
     async addNewTask() {
       await axios({
         url: 'http://localhost:3000/api/records', 
         method: 'post',
         data: {
-          task_descr: this.newTask,
-          task_state: false
+          task_text: this.newTask,
+          is_done: false
         }}
       );
-      this.newTask = '';
+
+      this.task_list.push({task_text: this.newTask, is_done: false});
+      this.newTask = '',
+
+      this.$q.notify({message: 'Задание успешно добавлено', color: 'green'});
     },
 
-    deleteTask(index) {
-      this.$q.dialog({
-        title: 'Подтверждение удаления',
-        message: 'Вы действительно хотите удалить задачу?',
-        cancel: true,
-        persistent: true
-      }).onOk(() => {
+    async updateTaskState (index, task_text) {
+      try{
+        const task_db_data = await this.getTaskDataDB(task_text);
+        const task_state = task_db_data.is_done;
+        const task_id = task_db_data._id;
 
-        this.task_list.splice(index, 1)
-        this.$q.notify('Задание успешно удалено')
-      })
+        this.task_list[index]['is_done'] = !this.task_list[index]['is_done'],
+
+        await axios({ 
+          url: `http://localhost:3000/api/records/${task_id}`, 
+          method: 'put', 
+          data: {
+            is_done: !task_state
+          }}
+        );
+                    
+      } catch (err) {
+        console.error(err);
+      }
     },
-  },
-  mounted() {
-    this.getData()
-  },
+
+    async deleteTask(index, task_text) {
+      try{
+        const task_db_data = await this.getTaskDataDB(task_text);
+        const task_id = task_db_data._id;
+
+        this.$q.dialog({
+          title: 'Подтверждение удаления',
+          message: 'Вы действительно хотите удалить задачу?',
+          cancel: true,
+          persistent: true
+        })
+        .onOk(() => {
+          axios({
+            url: `http://localhost:3000/api/records/${task_id}`, 
+            method: 'delete'
+          })
+          .then(this.task_list.splice(index, 1));
+
+          this.$q.notify({message: 'Задание успешно удалено', color: 'red'});
+        });
+
+      } catch (err) {
+        console.error(err);
+      }
+    },
+  }
 })
 </script>
 
